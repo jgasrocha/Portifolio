@@ -1,0 +1,52 @@
+.technologies {
+    padding: 60px 40px;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+
+  .technologies h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .technologies__slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+  }
+
+  .technologies__slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .technologies__icon {
+    font-size: 4rem;
+    margin-bottom: 10px;
+    color: #1e01b4;
+  }
+
+  .technologies__name {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .technologies__slider::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .technologies__slider::-webkit-scrollbar-thumb {
+    background-color: #1e01b4;
+    border-radius: 4px;
+  }
+
+  .technologies__slider::-webkit-scrollbar-track {
+    background-color: #f4f4f4;
+  }
