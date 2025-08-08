@@ -57,7 +57,7 @@ A aplicação é organizada em componentes reutilizáveis, seguindo a convençã
 Aqui estão algumas imagens da aplicação em funcionamento:
 
   * **Página de Inicial**
-  `![](assets/homepage.png)`
+  ![](assets/homepage.png)
   * **Seção de Projetos:**
   ![](assets/projetos.png)
   * **Seção de Contato:**
