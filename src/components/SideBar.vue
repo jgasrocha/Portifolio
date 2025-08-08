@@ -69,7 +69,7 @@ onUnmounted(() => {
     <ul class="sidebar-menu">
       <li>
         <a href="#home-section" :class="{ 'active': activeSection === 'home-section' }"
-          @click.prevent="scrollToSection('home-section')">Home</a>
+          @click.prevent="scrollToSection('home-section')">Inicio</a>
       </li>
       <li>
         <a href="#about-section" :class="{ 'active': activeSection === 'about-section' }"

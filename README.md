@@ -21,34 +21,47 @@ A aplicação é organizada em componentes reutilizáveis, seguindo a convençã
 
 ```
 /
+├── .vscode/
+├── .assets/
+├── node_modules/
 ├── public/
-│   ├── index.html
 │   └── ...
 ├── src/
-│   ├── assets/
-│   │   ├── logo.png
-│   │   └── ...
 │   ├── components/
+│   │   ├── Icon/
 │   │   ├── About.vue
 │   │   ├── ContactSection.vue
 │   │   ├── Footer.vue
 │   │   ├── Home.vue
 │   │   ├── MainPage.vue
 │   │   ├── ProjectsSection.vue
-│   │   ├── Sidebar.vue
-│   │   └── ServicesSection.vue
-│   └── App.vue
-└── ...
+│   │   ├── ServicesSection.vue
+│   │   └── SideBar.vue
+│   ├── router/
+│   │   └── router.js
+│   ├── App.vue
+│   └── main.js
+├── .gitattributes
+├── .gitignore
+├── index.html
+├── LICENSE
+├── package.json
+├── package-lock.json
+├── README.md
+├── vite.config.js
+└── jsconfig.json
 ```
 
 ## 🖼️ Screenshots
 
 Aqui estão algumas imagens da aplicação em funcionamento:
 
-  * **Página Inicial:**
+  * **Página de Inicial**
+  `![](assets/homepage.png)`
   * **Seção de Projetos:**
+  ![](assets/projetos.png)
   * **Seção de Contato:**
-  * **Rodapé da Página:**
+  ![](assets/contato.png)
 
 ## 🛠️ Como Executar o Projeto
 
@@ -56,8 +69,8 @@ Para clonar e executar este projeto em sua máquina local, siga estes passos:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/seu-usuario/seu-repositorio.git
-    cd seu-repositorio
+    git clone https://github.com/jgasrocha/Portifolio.git
+    cd Portifolio
     ```
 2.  **Instale as dependências:**
     ```bash
@@ -73,14 +86,6 @@ Para clonar e executar este projeto em sua máquina local, siga estes passos:
 
 Fique à vontade para me contatar através do formulário na seção de contato ou pelas redes sociais:
 
-  * **Email:** joaogabriel@email.com
-  * **LinkedIn:** [Seu Perfil do LinkedIn](https://www.google.com/search?q=https://www.linkedin.com/in/seu-perfil/)
-  * **GitHub:** [Seu Perfil do GitHub](https://www.google.com/search?q=https://github.com/seu-usuario)
-
------
-
-**Observações:**
-
-  * Substitua os links das imagens (`https://i.imgur.com/...`) pelos links reais das suas imagens.
-  * Preencha as informações de contato com seus dados verdadeiros.
-  * O `git clone` e `cd` devem usar o link correto do seu repositório no GitHub.
+  * **Email:** gabrieldeveloper33@gmail.com
+  * **GitHub:** [Seu Perfil do GitHub](https://github.com/jgasrocha)
+  * **Instagram** [jgasrocha_dev] (https://www.instagram.com/jgasrocha_dev/)
