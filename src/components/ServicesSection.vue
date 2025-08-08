@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import WebDevelopmentIcon from './icon/WebDevelopmentIcon.vue';
-import MobileAppIcon from './icon/MobileAppIcon.vue';
-import GameDevelopmentIcon from './icon/GameDevelopmentIcon.vue';
+import WebDevelopmentIcon from '../icon/WebDevelopmentIcon.vue';
+import MobileAppIcon from '../icon/MobileAppIcon.vue';
+import GameDevelopmentIcon from '../icon/GameDevelopmentIcon.vue';
 
 export default {
     name: 'ServicesSection',
