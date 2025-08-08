@@ -87,5 +87,5 @@ Para clonar e executar este projeto em sua máquina local, siga estes passos:
 Fique à vontade para me contatar através do formulário na seção de contato ou pelas redes sociais:
 
   * **Email:** gabrieldeveloper33@gmail.com
-  * **GitHub:** [Seu Perfil do GitHub](https://github.com/jgasrocha)
+  * **GitHub:** [jgasrocha](https://github.com/jgasrocha)
   * **Instagram** [jgasrocha_dev] (https://www.instagram.com/jgasrocha_dev/)
