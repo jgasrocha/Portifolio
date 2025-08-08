@@ -39,13 +39,14 @@ import FiveTech from '../../assets/five.png';
 import InterageTEA from '../../assets/interageTea.png';
 import LogoNova from '../../assets/LogoNova.png';
 import Portifolio from '../../assets/portifolioPessoal.png';
+
 export default {
     name: 'ProjectsSection',
     data() {
         return {
             currentProjectIndex: 0,
             isTransitioning: false,
-            slideDirection: 'right', // Propriedade para controlar a direção
+            slideDirection: 'right',
             projects: [
                 {
                     title: 'InterageTEA',
@@ -92,21 +93,20 @@ export default {
         },
         nextProject() {
             if (!this.isTransitioning) {
-                this.slideDirection = 'right'; // Define a direção do slide
+                this.slideDirection = 'right';
                 this.startTransition();
                 this.currentProjectIndex = (this.currentProjectIndex + 1) % this.projects.length;
             }
         },
         prevProject() {
             if (!this.isTransitioning) {
-                this.slideDirection = 'left'; // Define a direção do slide
+                this.slideDirection = 'left';
                 this.startTransition();
                 this.currentProjectIndex = (this.currentProjectIndex - 1 + this.projects.length) % this.projects.length;
             }
         },
         goToProject(index) {
             if (!this.isTransitioning && index !== this.currentProjectIndex) {
-                // Determina a direção do slide com base no índice
                 this.slideDirection = index > this.currentProjectIndex ? 'right' : 'left';
                 this.startTransition();
                 this.currentProjectIndex = index;
@@ -117,7 +117,6 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos existentes (sem alterações) */
 .projects-container {
     padding: 80px 20px;
     text-align: center;
@@ -137,12 +136,6 @@ export default {
     -webkit-text-fill-color: transparent;
 }
 
-.projects-subtitle {
-    font-size: 1.2rem;
-    color: #555;
-    font-style: italic;
-}
-
 .projects-carousel {
     display: flex;
     align-items: center;
@@ -155,7 +148,6 @@ export default {
     position: relative;
     overflow: hidden;
     max-width: 900px;
-    height: 380px;
 }
 
 .project-card {
@@ -163,14 +155,13 @@ export default {
     background-color: #f0f0f0;
     color: #555;
     border-radius: 15px;
-    overflow: hidden;
-    max-width: 900px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    position: absolute;
+
+    /* Alterado: removemos o `position: absolute` para a altura se adaptar ao conteúdo */
+    position: relative;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
 }
 
 .project-image-container {
@@ -277,11 +268,7 @@ export default {
     transform: scale(1.2);
 }
 
-/* ------------------------------------------- */
-/* NOVOS ESTILOS DE ANIMAÇÃO DIRECIONAL */
-/* ------------------------------------------- */
-
-/* Animação para slide da direita para a esquerda */
+/* Transições existentes... */
 .slide-right-enter-from {
     transform: translateX(100%);
     opacity: 0;
@@ -292,7 +279,6 @@ export default {
     opacity: 0;
 }
 
-/* Animação para slide da esquerda para a direita */
 .slide-left-enter-from {
     transform: translateX(-100%);
     opacity: 0;
@@ -303,7 +289,6 @@ export default {
     opacity: 0;
 }
 
-/* Estilos de transição ativos para ambas as direções */
 .slide-right-enter-active,
 .slide-right-leave-active,
 .slide-left-enter-active,
@@ -318,11 +303,22 @@ export default {
 }
 
 
-/* Media Queries para responsividade */
+/* ------------------------------------------- */
+/* --- Media Queries para responsividade --- */
+/* ------------------------------------------- */
 @media (max-width: 992px) {
+    .projects-title {
+        font-size: 2.5rem;
+    }
+
     .project-card {
         flex-direction: column;
         text-align: center;
+    }
+
+    .carousel-wrapper {
+        height: auto;
+        /* A altura se adapta ao conteúdo */
     }
 
     .project-details {
@@ -333,29 +329,41 @@ export default {
     .project-image-container {
         padding: 20px 20px 0;
     }
-
-    .projects-title {
-        font-size: 2.5rem;
-    }
 }
 
 @media (max-width: 768px) {
     .projects-carousel {
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 0;
     }
 
     .nav-arrow {
+        position: static;
+        /* Remove o posicionamento fixo para ficar na linha */
         font-size: 3rem;
         padding: 5px;
     }
 
-    .left-arrow,
-    .right-arrow {
+    .left-arrow {
         order: 0;
+    }
+
+    .right-arrow {
+        order: 1;
+    }
+
+    .carousel-wrapper {
+        order: 2;
+        /* Garante que o carrossel fique abaixo das setas */
+        width: 100%;
     }
 }
 
 @media (max-width: 576px) {
+    .projects-container {
+        padding: 50px 10px;
+    }
+
     .projects-title {
         font-size: 2rem;
     }
@@ -367,10 +375,6 @@ export default {
     .project-description,
     .project-info {
         font-size: 1rem;
-    }
-
-    .projects-carousel {
-        gap: 10px;
     }
 }
 </style>

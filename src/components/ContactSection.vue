@@ -91,8 +91,6 @@ export default {
                 this.alertMessage = 'Ocorreu um erro ao enviar a mensagem. Tente novamente.';
                 console.error('Erro ao enviar o formulário:', error);
             } finally {
-                // CORREÇÃO: Chama resetForm() e showAlert = true no bloco finally
-                // para garantir que o formulário seja limpo e o modal seja exibido sempre.
                 this.showAlert = true;
                 this.resetForm();
             }
@@ -111,9 +109,6 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos existentes */
-/* ... (todos os estilos do seu componente, incluindo o do alerta) ... */
-
 .contact-container {
     padding: 80px 20px;
     text-align: center;
@@ -232,9 +227,7 @@ export default {
     transform: translateY(-2px);
 }
 
-/* ------------------------------------ */
-/* ESTILOS DO ALERTA PERSONALIZADO */
-/* ------------------------------------ */
+/* Estilos do Alerta */
 .custom-alert-overlay {
     position: fixed;
     top: 0;
@@ -263,7 +256,6 @@ export default {
 .alert-icon {
     font-size: 3rem;
     color: #4CAF50;
-    /* Verde de sucesso */
     font-weight: bold;
     margin-bottom: 15px;
 }
@@ -292,7 +284,6 @@ export default {
     transform: translateY(-2px);
 }
 
-/* Transição do Vue para o alerta */
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s;
@@ -303,16 +294,41 @@ export default {
     opacity: 0;
 }
 
-/* Media Queries para responsividade */
+/* ------------------------------------------- */
+/* --- Media Queries para responsividade --- */
+/* ------------------------------------------- */
 @media (max-width: 768px) {
+    .contact-container {
+        padding: 50px 20px;
+    }
+
+    .contact-title {
+        font-size: 2.5rem;
+    }
+
+    .contact-subtitle {
+        font-size: 1rem;
+    }
+
     .contact-content {
         flex-direction: column;
+        gap: 30px;
     }
 
     .contact-info,
     .contact-form {
-        flex: none;
-        width: 100%;
+        padding: 30px;
+        min-width: unset;
+        text-align: center;
+    }
+
+    .info-text {
+        font-size: 1rem;
+    }
+
+    .logo-container {
+        width: 150px;
+        height: 150px;
     }
 }
 </style>

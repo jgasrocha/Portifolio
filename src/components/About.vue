@@ -1,8 +1,8 @@
 <script setup>
-import Figura from '../../assets/programme.png';
+import Figura from '../../assets/programmer.png';
 </script>
 <template>
-    
+
     <div id="about-section" class="about-container">
         <div class="about-inner">
             <div class="about-content">
@@ -37,21 +37,18 @@ import Figura from '../../assets/programme.png';
 <style scoped>
 .about-container {
     padding: 80px 20px;
-    /* Adicionei padding lateral padrão */
 }
 
 .about-inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* Alinhar verticalmente no centro */
     max-width: 1200px;
     margin: 0 auto;
 }
 
 .about-content {
     max-width: 60%;
-    /* Aumentei um pouco para dar mais espaço ao texto */
 }
 
 .about-title {
@@ -84,42 +81,50 @@ import Figura from '../../assets/programme.png';
 
 .about-image {
     width: 35%;
-    /* Defina uma largura para a imagem /
-display: flex;
-justify-content: center; / Centralizar a imagem */
+    display: flex;
+    justify-content: center;
 }
 
 .programmer-image {
     max-width: 100%;
-    /* A imagem não deve ultrapassar a largura do container /
-height: auto; / Manter a proporção da imagem */
+    height: auto;
 }
 
-/* Media query para telas menores */
+/* ------------------------------------------- */
+/* --- Media Queries para responsividade --- */
+/* ------------------------------------------- */
 @media (max-width: 768px) {
-.about-inner {
-flex-direction: column; /* Empilhar conteúdo e imagem em telas menores */
-align-items: center;
-}
+    .about-inner {
+        flex-direction: column;
+        align-items: center;
+    }
 
-.about-content {
-    max-width: 100%;
-    margin-bottom: 30px;
-    /* Adicionar espaço abaixo do texto */
-}
+    .about-content {
+        max-width: 100%;
+        margin-bottom: 30px;
+        text-align: center;
+    }
 
-.about-image {
-    width: 50%;
-    /* Aumentar a largura da imagem em telas menores */
-    margin-left: 0;
-    /* Remover margem esquerda */
-}
+    .about-title {
+        font-size: 2.5rem;
+    }
+
+    .about-title::after {
+        margin: 10px auto 0;
+    }
+
+    .about-text {
+        font-size: 1rem;
+    }
+
+    .about-image {
+        width: 60%;
+    }
 }
 
 @media (max-width: 480px) {
     .about-image {
-        width: 70%;
-        /* Aumentar ainda mais a largura da imagem em telas muito pequenas */
+        width: 80%;
     }
 }
 </style>

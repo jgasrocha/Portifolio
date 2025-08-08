@@ -7,60 +7,120 @@ const props = defineProps({
     type: [Object, null],
     required: true,
   },
+  isOpen: {
+    type: Boolean,
+    required: true,
+  },
 });
 
-const activeSection = ref('home-section');
+const emit = defineEmits(['toggle']);
 
+const activeSection = ref('home-section');
+const isMobile = ref(false); // Adicionamos um estado para verificar se é mobile
+
+// Função para verificar se a tela é mobile
+const checkMobile = () => {
+  isMobile.value = window.innerWidth <= 768;
+};
+
+// Funçao de rolagem corrigida
 const scrollToSection = (sectionId) => {
   const section = document.getElementById(sectionId);
-  if (section && props.mainContentEl) {
+  if (!section) return;
+
+  // Lógica para determinar onde rolar: window (mobile) ou mainContentEl (desktop)
+  if (isMobile.value) {
+    window.scrollTo({
+      top: section.offsetTop,
+      behavior: 'smooth'
+    });
+  } else if (props.mainContentEl) {
     props.mainContentEl.scrollTo({
       top: section.offsetTop,
       behavior: 'smooth'
     });
-    activeSection.value = sectionId;
+  }
+
+  activeSection.value = sectionId;
+  if (props.isOpen) {
+    // Fecha a sidebar após o clique, essencial para o mobile
+    emit('toggle');
   }
 };
 
+// Função para atualizar a seção ativa ao rolar
 const updateActiveSection = () => {
-  if (!props.mainContentEl) return;
-
   const sections = document.querySelectorAll('div[id$="-section"]');
   const offset = 100;
-  const scrollTop = props.mainContentEl.scrollTop;
 
-  // CORREÇÃO: Percorre as seções de trás para frente
+  // Obtém o scroll correto dependendo do dispositivo
+  const scrollTop = isMobile.value ? window.scrollY : (props.mainContentEl ? props.mainContentEl.scrollTop : 0);
+
   let currentActive = 'home-section';
   for (let i = sections.length - 1; i >= 0; i--) {
     const section = sections[i];
     const sectionTop = section.offsetTop;
 
-    // Verifica se a seção está visível na tela
     if (scrollTop >= sectionTop - offset) {
       currentActive = section.id;
-      break; // Sai do loop assim que encontrar a primeira seção (de baixo para cima)
+      break;
     }
   }
 
   activeSection.value = currentActive;
 };
 
-watch(() => props.mainContentEl, (el) => {
-  if (el) {
-    el.addEventListener('scroll', updateActiveSection);
-    updateActiveSection();
+// Adiciona event listeners no `window` ou `mainContentEl`
+const setupEventListeners = () => {
+  if (isMobile.value) {
+    window.addEventListener('scroll', updateActiveSection);
+  } else if (props.mainContentEl) {
+    props.mainContentEl.addEventListener('scroll', updateActiveSection);
   }
-}, { immediate: true });
+  updateActiveSection();
+};
 
-onUnmounted(() => {
+const cleanupEventListeners = () => {
+  window.removeEventListener('scroll', updateActiveSection);
   if (props.mainContentEl) {
     props.mainContentEl.removeEventListener('scroll', updateActiveSection);
+  }
+};
+
+onMounted(() => {
+  // Adiciona o listener de resize para monitorar a mudança de mobile para desktop
+  window.addEventListener('resize', checkMobile);
+  checkMobile(); // Executa a verificação inicial
+
+  // Configura os listeners de scroll com base no estado inicial
+  setupEventListeners();
+});
+
+onUnmounted(() => {
+  // Remove todos os listeners
+  window.removeEventListener('resize', checkMobile);
+  cleanupEventListeners();
+});
+
+// Usa um watcher para reconfigurar os listeners quando o `isMobile` muda
+watch(isMobile, (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    cleanupEventListeners();
+    setupEventListeners();
+  }
+});
+
+// Assista à prop `mainContentEl` para re-adicionar listeners se o elemento mudar
+watch(() => props.mainContentEl, (el) => {
+  if (el) {
+    cleanupEventListeners();
+    setupEventListeners();
   }
 });
 </script>
 
 <template>
-  <aside class="sidebar">
+  <aside class="sidebar" :class="{ 'is-open': isOpen }">
     <div class="sidebar-logo">
       <a href="#home-section" @click.prevent="scrollToSection('home-section')">
         <img :src="logo" alt="">
@@ -93,7 +153,6 @@ onUnmounted(() => {
 
 <style scoped>
 /* Estilos da Sidebar */
-/* ... (Seus estilos não foram alterados) ... */
 .sidebar {
   position: fixed;
   top: 0;
@@ -106,6 +165,8 @@ onUnmounted(() => {
   padding: 30px 20px;
   box-sizing: border-box;
   z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+  /* Transição para o mobile */
 }
 
 .sidebar-logo {
@@ -115,14 +176,14 @@ onUnmounted(() => {
 }
 
 .sidebar-logo img {
-  width: 150px; /* tamanho ajustado */
-  height: auto; /* mantém proporção */
-  object-fit: contain; /* evita distorção */
+  width: 150px;
+  height: auto;
+  object-fit: contain;
   transition: transform 0.2s ease-in-out;
 }
 
 .sidebar-logo img:hover {
-  transform: scale(1.05); /* efeito leve ao passar o mouse */
+  transform: scale(1.05);
 }
 
 .sidebar-menu {
@@ -152,5 +213,23 @@ onUnmounted(() => {
 .sidebar-menu li a:hover {
   background-color: #ff4757;
   color: white;
+}
+
+/* ------------------------------------------- */
+/* --- Media Queries para responsividade --- */
+/* ------------------------------------------- */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 250px;
+    transform: translateX(-100%);
+    /* Esconde a sidebar por padrão */
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+    /* Mostra a sidebar quando o menu está aberto */
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  }
 }
 </style>

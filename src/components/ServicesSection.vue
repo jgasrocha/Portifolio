@@ -126,15 +126,36 @@ export default {
     line-height: 1.6;
 }
 
-/* Responsividade */
+/* ------------------------------------------- */
+/* --- Media Queries para responsividade --- */
+/* ------------------------------------------- */
 @media (max-width: 768px) {
+    .services-header {
+        margin-bottom: 30px;
+    }
+
+    .services-title {
+        font-size: 2.5rem;
+    }
+
+    .services-subtitle {
+        font-size: 1rem;
+    }
+
     .services-grid {
         flex-direction: column;
         align-items: center;
+        gap: 20px;
     }
+
     .service-card {
-        width: 90%;
-        max-width: none;
+        max-width: 90%;
+        min-width: 0;
+        padding: 30px;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
     }
 }
 </style>
