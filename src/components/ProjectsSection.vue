@@ -37,7 +37,7 @@
 <script>
 import FiveTech from '../../assets/five.png';
 import InterageTEA from '../../assets/interageTea.png';
-import LogoNova from '../../assets/LogoNova.png';
+import LogoNova from '../../assets/logoNova.png';
 import Portifolio from '../../assets/portifolioPessoal.png';
 
 export default {
