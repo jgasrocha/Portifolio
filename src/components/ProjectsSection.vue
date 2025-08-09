@@ -53,7 +53,7 @@ export default {
                     subtitle: 'Jogo Educativo focado em interações para estudantes com Transtorno do Espectro Autista',
                     description: 'InterageTEA é um jogo educativo desenvolvido para auxiliar estudantes com Transtorno do Espectro Autista (TEA) a desenvolverem habilidades sociais e emocionais através de interações lúdicas.',
                     image: InterageTEA,
-                    link: ''
+                    link: 'https://play.google.com/store/apps/details?id=com.IFBaiano.InterageTEA'
                 },
                 {
                     title: 'Portifólio da FiveTech',
