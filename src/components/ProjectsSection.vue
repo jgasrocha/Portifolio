@@ -39,6 +39,8 @@ import FiveTech from '../../assets/five.png';
 import InterageTEA from '../../assets/interageTea.png';
 import LogoNova from '../../assets/logoNova.png';
 import Portifolio from '../../assets/portifolioPessoal.png';
+import FlordeMaio from '../../assets/flordemaio.png';
+import Eduarda from '../../assets/eduarda.png';
 
 export default {
     name: 'ProjectsSection',
@@ -75,6 +77,20 @@ export default {
                     description: 'Este portfólio pessoal foi desenvolvido utilizando Vue.js, destacando minhas habilidades e projetos na área de desenvolvimento web.',
                     image: Portifolio,
                     link: '#home-section'
+                },
+                {
+                    title: 'Site da Loja Flor de Maio',
+                    subtitle: 'Loja de bolsas',
+                    description: 'Site da loja Flor de Maio, visando um maior alcance para atrair clientes.',
+                    image: FlordeMaio,
+                    link: 'https://flordemaio.netlify.app/'
+                },
+                {
+                    title: 'Eduarda Consultora',
+                    subtitle: 'Site de Consultoria de Consórcios',
+                    description: 'Site de consultoria de consórcios, oferecendo informações e serviços personalizados para clientes interessados em adquirir consórcios.',
+                    image: Eduarda,
+                    link: 'https://eduarda-consorcio.netlify.app/'
                 }
             ]
         };
