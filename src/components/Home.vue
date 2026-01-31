@@ -17,11 +17,11 @@ import IconDjango from './Icon/IconDjango.vue';
             <div class="cta-section">
                 <!-- <a href="#projects-section" class="btn">Meus Projetos</a> -->
                 <div class="social-links">
-                    <a href="#" aria-label="Instagram" class="social-icon"><font-awesome-icon
+                    <a href="https://www.instagram.com/jgasrocha_dev/" aria-label="Instagram" class="social-icon"><font-awesome-icon
                             :icon="['fab', 'instagram']" /></a>
-                    <a href="#" aria-label="LinkedIn" class="social-icon"><font-awesome-icon
+                    <a href="https://www.linkedin.com/in/jo%C3%A3o-gabriel-silva-rocha/" aria-label="LinkedIn" class="social-icon"><font-awesome-icon
                             :icon="['fab', 'linkedin']" /></a>
-                    <a href="#" aria-label="GitHub" class="social-icon"><font-awesome-icon
+                    <a href="https://github.com/jgasrocha" aria-label="GitHub" class="social-icon"><font-awesome-icon
                             :icon="['fab', 'github']" /></a>
                 </div>
             </div>

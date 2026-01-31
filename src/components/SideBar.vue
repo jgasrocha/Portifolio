@@ -136,12 +136,16 @@ watch(() => props.mainContentEl, (el) => {
           @click.prevent="scrollToSection('about-section')">Sobre Mim</a>
       </li>
       <li>
-        <a href="#services-section" :class="{ 'active': activeSection === 'services-section' }"
-          @click.prevent="scrollToSection('services-section')">Serviços</a>
-      </li>
-      <li>
         <a href="#projects-section" :class="{ 'active': activeSection === 'projects-section' }"
           @click.prevent="scrollToSection('projects-section')">Projetos</a>
+      </li>
+      <li>
+        <a href="#skills-section" :class="{ 'active': activeSection === 'skills-section' }"
+          @click.prevent="scrollToSection('skills-section')">Habilidades</a>
+      </li>
+      <li>
+        <a href="#services-section" :class="{ 'active': activeSection === 'services-section' }"
+          @click.prevent="scrollToSection('services-section')">Serviços</a>
       </li>
       <li>
         <a href="#contact-section" :class="{ 'active': activeSection === 'contact-section' }"

@@ -4,138 +4,110 @@
             <div class="projects-header">
                 <h2 class="projects-title">Meus Projetos</h2>
             </div>
-            <div class="projects-carousel">
-                <button @click="prevProject" class="nav-arrow left-arrow" :disabled="isTransitioning">‹</button>
-                <div class="carousel-wrapper">
-                    <transition :name="transitionName" mode="out-in">
-                        <div class="project-card" :key="currentProjectIndex">
-                            <div class="project-image-container">
-                                <img :src="projects[currentProjectIndex].image"
-                                    :alt="projects[currentProjectIndex].title" class="project-image" />
+
+            <div class="projects-carousel" v-if="projects.length > 0">
+                <button @click="scrollCarousel(-1)" class="nav-arrow left-arrow">‹</button>
+
+                <div class="carousel-wrapper" ref="carouselWrapper">
+                    <div class="carousel-track">
+
+                        <div v-for="project in projects" :key="project.title" class="project-card">
+                            <div class="project-image-top">
+                                <img :src="project.image" :alt="project.title" class="project-image" />
                             </div>
                             <div class="project-details">
-                                <h3 class="project-name">{{ projects[currentProjectIndex].title }}</h3>
-                                <p class="project-info">{{ projects[currentProjectIndex].subtitle }}</p>
-                                <p class="project-description">{{ projects[currentProjectIndex].description }}</p>
-                                <a :href="projects[currentProjectIndex].link" target="_blank" class="project-button">
-                                    CONFERIR <span class="arrow">→</span>
+                                <h3 class="project-name">{{ project.title }}</h3>
+                                <p class="project-description">{{ project.description }}</p>
+                                <button type="button" class="see-more-button" @click="openModal(project)">
+                                    Ver mais
+                                </button>
+                                <div class="project-tech-tags">
+                                    <span v-for="tech in project.technologies" :key="tech" class="tech-tag">
+                                        {{ tech }}
+                                    </span>
+                                </div>
+                                <a :href="project.link" target="_blank" class="project-button">
+                                    CONFERIR
                                 </a>
                             </div>
                         </div>
-                    </transition>
-                </div>
-                <button @click="nextProject" class="nav-arrow right-arrow" :disabled="isTransitioning">›</button>
+                    </div>
+                </div> <button @click="scrollCarousel(1)" class="nav-arrow right-arrow">›</button>
             </div>
-            <div class="dots-container">
-                <span v-for="(project, index) in projects" :key="index"
-                    :class="['dot', { active: index === currentProjectIndex }]" @click="goToProject(index)"></span>
-            </div>
+
         </div>
+
+        <ProjectModal v-if="isModalVisible" :project="selectedProject" @close="closeModal" />
     </div>
 </template>
 
 <script>
-import FiveTech from '../../assets/five.png';
-import InterageTEA from '../../assets/interageTea.png';
-import LogoNova from '../../assets/logoNova.png';
-import Portifolio from '../../assets/portifolioPessoal.png';
-import FlordeMaio from '../../assets/flordemaio.png';
-import Eduarda from '../../assets/eduarda.png';
+import { projects } from './projects.js'; // Ajuste o caminho se necessário
+import ProjectModal from './ProjectModal.vue';
 
 export default {
     name: 'ProjectsSection',
+    components: {
+        ProjectModal
+    },
     data() {
         return {
-            currentProjectIndex: 0,
-            isTransitioning: false,
-            slideDirection: 'right',
-            projects: [
-                {
-                    title: 'InterageTEA',
-                    subtitle: 'Jogo Educativo focado em interações para estudantes com Transtorno do Espectro Autista',
-                    description: 'InterageTEA é um jogo educativo desenvolvido para auxiliar estudantes com Transtorno do Espectro Autista (TEA) a desenvolverem habilidades sociais e emocionais através de interações lúdicas.',
-                    image: InterageTEA,
-                    link: 'https://play.google.com/store/apps/details?id=com.IFBaiano.InterageTEA'
-                },
-                {
-                    title: 'Portifólio da FiveTech',
-                    subtitle: 'Portfólio de projetos da FiveTech',
-                    description: 'Portfólio de projetos desenvolvidos pela FiveTech, incluindo sistemas de gestão e aplicativos.',
-                    image: FiveTech,
-                    link: 'https://fivetech.netlify.app/'
-                },
-                {
-                    title: 'Sistema de Gestão Educacional de Aulas - SIGEA',
-                    subtitle: 'Otimização de rotina escolar',
-                    description: 'Sistema de agendas para otimizar a organização e rotina escolar, visando maior eficiência e praticidade para estudantes e educadores.',
-                    image: LogoNova,
-                    link: 'https://horario.formigueirotecnologico.com.br/'
-                },
-                {
-                    title: 'Portfólio Pessoal',
-                    subtitle: 'Meu portfólio pessoal desenvolvido em Vue.js',
-                    description: 'Este portfólio pessoal foi desenvolvido utilizando Vue.js, destacando minhas habilidades e projetos na área de desenvolvimento web.',
-                    image: Portifolio,
-                    link: '#home-section'
-                },
-                {
-                    title: 'Site da Loja Flor de Maio',
-                    subtitle: 'Loja de bolsas',
-                    description: 'Site da loja Flor de Maio, visando um maior alcance para atrair clientes.',
-                    image: FlordeMaio,
-                    link: 'https://flordemaio.netlify.app/'
-                },
-                {
-                    title: 'Eduarda Consultora',
-                    subtitle: 'Site de Consultoria de Consórcios',
-                    description: 'Site de consultoria de consórcios, oferecendo informações e serviços personalizados para clientes interessados em adquirir consórcios.',
-                    image: Eduarda,
-                    link: 'https://eduarda-consorcio.netlify.app/'
-                }
-            ]
+            projects: projects,
+            isModalVisible: false,
+            selectedProject: null,
         };
     },
-    computed: {
-        transitionName() {
-            return `slide-${this.slideDirection}`;
+    watch: {
+        isModalVisible(newValue) {
+            document.body.style.overflow = newValue ? 'hidden' : '';
         }
     },
     methods: {
-        startTransition() {
-            this.isTransitioning = true;
-            setTimeout(() => {
-                this.isTransitioning = false;
-            }, 500);
-        },
-        nextProject() {
-            if (!this.isTransitioning) {
-                this.slideDirection = 'right';
-                this.startTransition();
-                this.currentProjectIndex = (this.currentProjectIndex + 1) % this.projects.length;
+        scrollCarousel(direction) {
+            const wrapper = this.$refs.carouselWrapper;
+            if (!wrapper) return;
+
+            // Tenta pegar a largura do primeiro card
+            const firstCard = wrapper.querySelector('.project-card');
+            let scrollAmount = 350; // Um valor padrão caso o card não seja encontrado
+
+            if (firstCard) {
+                const cardStyle = window.getComputedStyle(firstCard);
+                const cardWidth = firstCard.offsetWidth;
+                const cardMargin = parseFloat(cardStyle.marginRight); // Pega o gap
+                scrollAmount = cardWidth + cardMargin;
             }
+
+            wrapper.scrollBy({
+                left: scrollAmount * direction,
+                behavior: 'smooth'
+            });
         },
-        prevProject() {
-            if (!this.isTransitioning) {
-                this.slideDirection = 'left';
-                this.startTransition();
-                this.currentProjectIndex = (this.currentProjectIndex - 1 + this.projects.length) % this.projects.length;
-            }
+        openModal(project) {
+            this.selectedProject = project;
+            this.isModalVisible = true;
         },
-        goToProject(index) {
-            if (!this.isTransitioning && index !== this.currentProjectIndex) {
-                this.slideDirection = index > this.currentProjectIndex ? 'right' : 'left';
-                this.startTransition();
-                this.currentProjectIndex = index;
-            }
+        closeModal() {
+            this.isModalVisible = false;
+            this.selectedProject = null;
         }
+    },
+    beforeUnmount() {
+        document.body.style.overflow = '';
     }
 };
 </script>
 
 <style scoped>
 .projects-container {
-    padding: 80px 20px;
+    padding: 80px 0;
     text-align: center;
+}
+
+.projects-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .projects-header {
@@ -156,241 +128,267 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
 }
 
 .carousel-wrapper {
     flex: 1;
     position: relative;
-    overflow: hidden;
-    max-width: 900px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 20px;
+}
+
+.carousel-track {
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
 }
 
 .project-card {
     display: flex;
-    background-color: #f0f0f0;
-    color: #555;
+    flex-direction: column;
+    flex: 0 0 auto;
+    width: 360px;
+    margin-right: 20px;
+    background-color: #ffffff;
+    color: #2c3e50;
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-
-    /* Alterado: removemos o `position: absolute` para a altura se adaptar ao conteúdo */
-    position: relative;
-    top: 0;
-    left: 0;
-    right: 0;
+    overflow: hidden;
+    height: auto;
+    /* A altura será determinada pelo conteúdo */
+    transition: transform 0.3s ease;
 }
 
-.project-image-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+.project-image-top {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    padding: 0;
 }
 
 .project-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .project-details {
-    flex: 1.2;
+    flex-grow: 1;
+    /* Faz esta seção preencher o espaço restante */
     text-align: left;
-    padding: 40px;
+    padding: 25px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .project-name {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 5px;
-    background: linear-gradient(90deg, #ff6b6b, #c32727);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    margin-bottom: 0;
+    -webkit-text-fill-color: #2c3e50;
 }
 
-.project-info {
-    font-size: 1rem;
-    color: #888;
-    margin-bottom: 20px;
-}
-
+/* ================== AJUSTE FEITO AQUI ================== */
 .project-description {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 0.95rem;
+    line-height: 1.5;
     color: #555;
-    margin-bottom: 30px;
+    margin-bottom: 0;
+
+    /* Remove o 'flex-grow' e 'min-height' que causavam o espaço */
+    /* flex-grow: 1;  <-- REMOVIDO */
+    /* min-height: 60px; <-- REMOVIDO */
+
+    /* Adiciona o truncamento de 2 linhas com "..." */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Define o número de linhas */
+    -webkit-box-orient: vertical;
 }
+
+/* ======================================================= */
 
 .project-button {
-    display: inline-block;
+    display: block;
     padding: 12px 25px;
     background-color: #ff6b6b;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
+
+    /* Esta linha empurra o botão para o final do card */
+    margin-top: auto;
+
+    align-self: stretch;
+    text-align: center;
+    border: none;
+    cursor: pointer;
 }
 
 .project-button:hover {
     background-color: #e65c5c;
-    transform: translateY(-2px);
-}
-
-.arrow {
-    margin-left: 10px;
 }
 
 .nav-arrow {
     background: none;
     border: none;
-    font-size: 4rem;
+    font-size: 3rem;
     color: #2c3e50;
     cursor: pointer;
     transition: transform 0.2s ease, color 0.2s ease;
-    padding: 10px;
+    padding: 10px 0;
 }
 
 .nav-arrow:hover {
     transform: scale(1.1);
-    color: #e65c5c;
-}
-
-.nav-arrow:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    color: #ff6b6b;
 }
 
 .dots-container {
+    display: none;
+}
+
+.project-tech-tags {
     display: flex;
-    justify-content: center;
-    margin-top: 40px;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    background-color: #ccc;
-    border-radius: 50%;
-    margin: 0 5px;
+.tech-tag {
+    background-color: #e0e0e0;
+    color: #555;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.see-more-button {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-weight: 700;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    padding: 0;
+    margin-bottom: 0;
+    transition: color 0.2s ease;
+    align-self: flex-start;
 }
 
-.dot.active {
-    background-color: #2c3e50;
-    transform: scale(1.2);
+.see-more-button:hover {
+    color: #c32727;
+    text-decoration: underline;
 }
 
-/* Transições existentes... */
-.slide-right-enter-from {
-    transform: translateX(100%);
-    opacity: 0;
+/* Estilização da Barra de Rolagem */
+.carousel-wrapper::-webkit-scrollbar {
+    height: 8px;
 }
 
-.slide-right-leave-to {
-    transform: translateX(-100%);
-    opacity: 0;
+.carousel-wrapper::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
 }
 
-.slide-left-enter-from {
-    transform: translateX(-100%);
-    opacity: 0;
+.carousel-wrapper::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
 }
 
-.slide-left-leave-to {
-    transform: translateX(100%);
-    opacity: 0;
+.carousel-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
 }
 
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-left-enter-active,
-.slide-left-leave-active {
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.carousel-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f0f0f0;
 }
 
-.slide-right-leave-active,
-.slide-left-leave-active {
-    position: absolute;
-    width: 100%;
-}
-
-
-/* ------------------------------------------- */
-/* --- Media Queries para responsividade --- */
-/* ------------------------------------------- */
+/* --- Media Queries --- */
 @media (max-width: 992px) {
     .projects-title {
         font-size: 2.5rem;
     }
 
     .project-card {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .carousel-wrapper {
-        height: auto;
-        /* A altura se adapta ao conteúdo */
-    }
-
-    .project-details {
-        padding: 20px;
-        text-align: center;
-    }
-
-    .project-image-container {
-        padding: 20px 20px 0;
+        width: 320px;
     }
 }
 
 @media (max-width: 768px) {
-    .projects-carousel {
-        flex-direction: column;
-        gap: 0;
-    }
-
     .nav-arrow {
-        position: static;
-        /* Remove o posicionamento fixo para ficar na linha */
-        font-size: 3rem;
-        padding: 5px;
+        font-size: 2.5rem;
     }
 
-    .left-arrow {
-        order: 0;
-    }
-
-    .right-arrow {
-        order: 1;
-    }
-
-    .carousel-wrapper {
-        order: 2;
-        /* Garante que o carrossel fique abaixo das setas */
-        width: 100%;
+    .project-card {
+        width: 300px;
     }
 }
 
 @media (max-width: 576px) {
     .projects-container {
-        padding: 50px 10px;
+        padding: 50px 0;
+    }
+
+    .projects-inner {
+        padding: 0;
+    }
+
+    .projects-carousel {
+        gap: 0;
     }
 
     .projects-title {
         font-size: 2rem;
+        padding: 0 10px;
+    }
+
+    .nav-arrow {
+        padding: 10px 5px;
+    }
+
+    .carousel-wrapper {
+        padding-bottom: 15px;
+    }
+
+    .carousel-track {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .project-card {
+        width: 280px;
+        margin-right: 15px;
     }
 
     .project-name {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
-    .project-description,
-    .project-info {
-        font-size: 1rem;
+    .project-description {
+        font-size: 0.9rem;
+    }
+
+    .project-details {
+        padding: 20px;
+        gap: 12px;
     }
 }
 </style>
